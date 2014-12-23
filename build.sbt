@@ -14,7 +14,8 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-slick" % "0.8.1",
   "mysql" % "mysql-connector-java" % "latest.release",
   "org.webjars" % "angularjs" % "1.3.8",
-  "org.webjars" % "foundation" % "5.5.0",
+  "org.webjars" % "angular-foundation" % "0.3.0",
+  //"org.webjars" % "foundation" % "5.5.0",
   "org.webjars" % "requirejs" % "2.1.11-1"
 )     
 

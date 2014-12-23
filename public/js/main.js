@@ -18,11 +18,13 @@ requirejs.config({
   }
 });
 
+
 require(['angular', './controllers', './directives', './filters', './services', 'angular-route'],
   function(angular, controllers) {
 
     // Declare app level module which depends on filters, and services
 
+	angular.module('myModule', ['mm.foundation']);
     angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 'ngRoute']).
       config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/view1', {templateUrl: 'partials/partial1.html', controller: controllers.MyCtrl1});
