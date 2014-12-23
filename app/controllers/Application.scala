@@ -31,7 +31,7 @@ trait Match {
 object Application extends Controller with Match {
 
   def angular = Action { implicit request =>
-    Ok(views.html.Index())
+    Ok(views.html.angular())
   }
   
   def index = Action { implicit request =>
