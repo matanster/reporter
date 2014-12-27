@@ -43,4 +43,13 @@ object Application extends Controller with Match {
     Ok(views.html.showExtract("articlio research")(content))
   }
   
+  def showExtractFoundation(article: String) = DBAction { implicit request =>
+    val rows = matches.filter(_.runID === "ubuntu-2014-12-15 21:09:52.072").filter(_.docName === article).list
+    //val content = rows.map(r => (r._3)
+    val content: List[Match1] = rows.map(r => Match1(r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8))
+    //Ok(s"sentences: ${sentences.length}")
+    println(content)
+    Ok(views.html.showExtractFoundation("articlio research")(content))
+  }
+  
 }
