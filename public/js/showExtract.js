@@ -1,4 +1,4 @@
-angular.module('showExtract', ['mm.foundation']).controller('TooltipDemoCtrl', function ($scope) {
+angular.module('showExtract', ['mm.foundation']).controller('myController', function ($scope) {
   $scope.dynamicTooltip = "Hello, World!";
   $scope.dynamicTooltipText = "dynamic";
   $scope.htmlTooltip = "I've been made <b>bold</b>!";
