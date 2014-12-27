@@ -11,6 +11,9 @@ GET  /angular               controllers.Application.angular()
 # Map static resources from the /public folder to the /assets URL path
 GET  /assets/*file          controllers.Assets.at(path="/public", file)
 
+# Webjars
+GET  /webjars/*file         controllers.WebJarAssets.at(file)
+
 # Show article extract
 GET  /showExtract/:article  controllers.Application.showExtract(article: String)
 
