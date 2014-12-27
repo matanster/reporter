@@ -30,10 +30,6 @@ trait Match {
 
 object Application extends Controller with Match {
 
-  def angular = Action { implicit request =>
-    Ok(views.html.angular())
-  }
-  
   def index = Action { implicit request =>
     Ok(s"app is up, got request [$request]")
   }
