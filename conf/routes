@@ -9,11 +9,10 @@ GET  /                                controllers.Application.index
 GET  /assets/*file                    controllers.Assets.at(path="/public", file)
 
 # Show article extract
-GET  /showExtract/:article            controllers.Application.showExtract(article: String)
-
-# Show article extract
 GET  /showExtractFoundation/:article  controllers.Application.showExtractFoundation(runID="ubuntu-2014-12-15 21:09:52.072", article: String)
 
-# Map the JS resource paths
+# Show article extract
+GET  /showOriginal/:article           controllers.Application.showOriginal(article: String)
+
+# Map the JS resource paths - is this really still relevant?!
 GET  /*file                           controllers.Assets.versioned(path="/public", file: Asset)
-    

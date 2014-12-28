@@ -31,20 +31,13 @@ trait Match {
 object Application extends Controller with Match {
 
   def index = Action { implicit request =>
+    println()
     Ok(s"app is up, got request [$request]")
   }
-
-  def showExtract(article: String) = DBAction { implicit request =>
-    val rows = matches.filter(_.runID === "ubuntu-2014-12-15 21:09:52.072").filter(_.docName === article).list
-    //val content = rows.map(r => (r._3)
-    val content: List[Match1] = rows.map(r => Match1(r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8))
-    //Ok(s"sentences: ${sentences.length}")
-    Ok(views.html.showExtract("articlio research")(content))
-  }
-  
+ 
   def showExtractFoundation(runID: String, article: String) = DBAction { implicit request =>
     import play.api.libs.json._
-    val rows = matches.filter(_.runID === runID).filter(_.docName === article).list
+    val rows = matches.filter(_.runID === runID).filter(_.docName === s"${article}.xml").list
     val content: List[Match1] = rows.map(r => Match1(r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)).filter(_.isFinalMatch)
     val runIDs = List("ubuntu-2014-12-15 21:09:52.072", "ubuntu-2014-12-21 09:04:30.084")
     //println(content)
@@ -52,5 +45,11 @@ object Application extends Controller with Match {
     Ok(views.html.showExtractFoundation(runIDs, runID, article, content))
     //Ok(views.html.showExtractFoundation(Json.toJson(runIDs), runID, article, content))
   }
-  
+ 
+  def showOriginal(article: String) = Action { implicit request =>
+    val original = s"../data/pdf/0-input/${article}.pdf"
+    println(s"serving $original")
+    Ok.sendFile(content = new java.io.File(original),
+                inline = true) // as per https://www.playframework.com/documentation/2.1.3/ScalaStream
+  }
 }
