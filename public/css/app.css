@@ -3,3 +3,7 @@
 .matchIndication {
 	color: #803232;
 }
+
+.tooltip{
+position: fixed;
+}
