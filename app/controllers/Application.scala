@@ -39,17 +39,18 @@ object Application extends Controller with Match {
     //val content = rows.map(r => (r._3)
     val content: List[Match1] = rows.map(r => Match1(r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8))
     //Ok(s"sentences: ${sentences.length}")
-    println(content)
     Ok(views.html.showExtract("articlio research")(content))
   }
   
   def showExtractFoundation(runID: String, article: String) = DBAction { implicit request =>
+    import play.api.libs.json._
     val rows = matches.filter(_.runID === runID).filter(_.docName === article).list
-    //val content = rows.map(r => (r._3)
-    val content: List[Match1] = rows.map(r => Match1(r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8))
-    //Ok(s"sentences: ${sentences.length}")
-    println(content)
-    Ok(views.html.showExtractFoundation(runID)(content))
+    val content: List[Match1] = rows.map(r => Match1(r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)).filter(_.isFinalMatch)
+    val runIDs = List("ubuntu-2014-12-15 21:09:52.072", "ubuntu-2014-12-21 09:04:30.084")
+    //println(content)
+    println(runIDs)
+    Ok(views.html.showExtractFoundation(runIDs, runID, article, content))
+    //Ok(views.html.showExtractFoundation(Json.toJson(runIDs), runID, article, content))
   }
   
 }
