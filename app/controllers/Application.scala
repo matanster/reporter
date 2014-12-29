@@ -28,7 +28,7 @@ trait Match {
   val matches = TableQuery[Matches]
 }
 
-object Application extends Controller with Match {
+object Application extends Controller with Match with slickGenerated.Tables {
 
   def index = Action { implicit request =>
     println()
@@ -39,9 +39,12 @@ object Application extends Controller with Match {
     import play.api.libs.json._
     val rows = matches.filter(_.runID === runID).filter(_.docName === s"${article}.xml").list
     val content: List[Match1] = rows.map(r => Match1(r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)).filter(_.isFinalMatch)
-    val runIDs = List("ubuntu-2014-12-15 21:09:52.072", "ubuntu-2014-12-21 09:04:30.084")
     //println(content)
-    println(runIDs)
+    //val runIDs = List("ubuntu-2014-12-15 21:09:52.072", "ubuntu-2014-12-21 09:04:30.084")
+    
+    //val runIDs = Runids.map(r => r.runid.get).list // this would work when that table means anything
+    val runIDs = matches.map(m => m.runID).list.distinct.sorted(Ordering[String].reverse)
+        
     Ok(views.html.showExtractFoundation(runIDs, runID, article, content))
     //Ok(views.html.showExtractFoundation(Json.toJson(runIDs), runID, article, content))
   }
@@ -52,4 +55,8 @@ object Application extends Controller with Match {
     Ok.sendFile(content = new java.io.File(original),
                 inline = true) // as per https://www.playframework.com/documentation/2.1.3/ScalaStream
   }
+  
+  // def getRunIDs() = DBAction { implicit request =>
+  //val runIDs = run
+  //}
 }

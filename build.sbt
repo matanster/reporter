@@ -14,5 +14,6 @@ libraryDependencies ++= Seq(
   "mysql" % "mysql-connector-java" % "latest.release"
 )     
 
+
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
