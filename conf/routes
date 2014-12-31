@@ -9,7 +9,7 @@ GET  /                                controllers.Application.index
 GET  /assets/*file                    controllers.Assets.at(path="/public", file)
 
 # Show article extract
-GET  /showExtractFoundation/:article  controllers.Application.showExtractFoundation(runID="ubuntu-2014-12-15 21:09:52.072", article: String)
+GET  /showExtractFoundation/:article  controllers.Application.showExtractFoundation(runID: String ?= "ubuntu-2014-12-15 21:09:52.072", article: String)
 
 # Show article extract
 GET  /showOriginal/:article           controllers.Application.showOriginal(article: String)

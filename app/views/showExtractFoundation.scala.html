@@ -15,7 +15,7 @@
   <div ng-controller="myController">
 	  <a class="button dropdown" dropdown-toggle="#dropdown1">@selectedRunID</a>
 	    <ul id="dropdown1" class="f-dropdown">
-	      @runIDs.map {r => <li><a>@r</a></li>}
+	      @runIDs.map {r => <li><a href=@routes.Application.showExtractFoundation(r, article)>@r</a></li>}
 	    </li>
 	  </ul>
   
