@@ -35,7 +35,7 @@ object Application extends Controller with Match with slickGenerated.Tables {
     Ok(s"app is up, got request [$request]")
   }
  
-  def showExtractFoundation(runID: String, article: String) = DBAction { implicit request =>
+  def showExtract(runID: String, article: String) = DBAction { implicit request =>
     import play.api.libs.json._
     val rows = matches.filter(_.runID === runID).filter(_.docName === s"${article}.xml").list
     val content: List[Match1] = rows.map(r => Match1(r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)).filter(_.isFinalMatch)
@@ -45,15 +45,20 @@ object Application extends Controller with Match with slickGenerated.Tables {
     //val runIDs = Runids.map(r => r.runid.get).list // this would work when that table means anything
     val runIDs = matches.map(m => m.runID).list.distinct.sorted(Ordering[String].reverse)
         
-    Ok(views.html.showExtractFoundation(runIDs, runID, article, content))
+    Ok(views.html.showExtract(runIDs, runID, article, content))
     //Ok(views.html.showExtractFoundation(Json.toJson(runIDs), runID, article, content))
   }
  
   def showOriginal(article: String) = Action { implicit request =>
-    val original = s"../data/pdf/0-input/${article}.pdf"
-    println(s"serving $original")
-    Ok.sendFile(content = new java.io.File(original),
-                inline = true) // as per https://www.playframework.com/documentation/2.1.3/ScalaStream
+    if (!article.startsWith("elife")){
+      val original = s"../data/pdf/0-input/${article}.pdf" 
+      println(s"serving $original")
+      Ok.sendFile(content = new java.io.File(original),
+                  inline = true) // as per https://www.playframework.com/documentation/2.1.3/ScalaStream
+    }
+    else
+      Redirect(s"http://ubuntu.local:8000/${article}.xml") // assuming path ../data/eLife-JATS/2-styled is being web served
+                                                           // e.g. by "python -m SimpleHTTPServer"
   }
   
   // def getRunIDs() = DBAction { implicit request =>
