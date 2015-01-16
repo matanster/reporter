@@ -61,7 +61,30 @@ object Application extends Controller with Match with slickGenerated.Tables {
                                                            // e.g. by "python -m SimpleHTTPServer"
   }
   
+  def adminPage = Action { implicit request =>
+    Ok(views.html.adminPage())
+  }
+  
   // def getRunIDs() = DBAction { implicit request =>
   //val runIDs = run
   //}
+
+  import play.api.mvc._
+  import play.api.Play.current
+  import akka.actor._
+
+  object MyWebSocketActor {
+    def props(out: ActorRef) = Props(new MyWebSocketActor(out))
+  }
+  
+  class MyWebSocketActor(out: ActorRef) extends Actor {
+    def receive = {
+      case msg: String =>
+        out ! ("I received your message: " + msg)
+    }
+}
+  def socket = WebSocket.acceptWithActor[String, String] { request => out =>
+    MyWebSocketActor.props(out)
+  }
+  
 }
