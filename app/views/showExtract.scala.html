@@ -63,19 +63,9 @@
 		  </span>
 	  </span>
 
-	  <!-- button for showing original article -->
-	  <a href=@routes.Application.showOriginal(article)>
-		  <button type="button" 
-		          class="btn btn-default" 
-	            data-toggle="popover" 
-	            data-trigger="hover" 
-	            data-placement="auto" 
-	            data-html="true" 
-	            data-content="click here to go to the original article">
-		          View Original
-		  </button>
-	  </a>
-	  
+    <!-- button for showing original article -->
+    @buttonWithPopover("View Original", routes.Application.showOriginal(article).toString, "click here to go to the original article")
+	 	 
   </div>
   
   <!-- output table -->

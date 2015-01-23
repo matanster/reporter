@@ -1,0 +1,14 @@
+@* reusable play components *@
+
+@(text: String, href: String, popoverContent: String)
+    <a href=@href>
+      <button type="button" 
+              class="btn btn-default" 
+              data-toggle="popover" 
+              data-trigger="hover" 
+              data-placement="auto" 
+              data-html="true" 
+              data-content="@popoverContent">
+              @text
+      </button>
+    </a>
