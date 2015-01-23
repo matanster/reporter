@@ -35,6 +35,20 @@ object Application extends Controller with Match with slickGenerated.Tables {
     Ok(s"app is up, got request [$request]")
   }
  
+  def showExtractFoundation(runID: String, article: String) = DBAction { implicit request =>
+  import play.api.libs.json._
+  val rows = matches.filter(_.runID === runID).filter(_.docName === s"${article}.xml").list
+  val content: List[Match1] = rows.map(r => Match1(r._1, r._2, r._3, r._4, r._5, r._6, r._7, r._8)).filter(_.isFinalMatch)
+  //println(content)
+  //val runIDs = List("ubuntu-2014-12-15 21:09:52.072", "ubuntu-2014-12-21 09:04:30.084")
+  
+  //val runIDs = Runids.map(r => r.runid.get).list // this would work when that table means anything
+  val runIDs = matches.map(m => m.runID).list.distinct.sorted(Ordering[String].reverse)
+  
+  Ok(views.html.showExtractFoundation(runIDs, runID, article, content))
+  //Ok(views.html.showExtractFoundation(Json.toJson(runIDs), runID, article, content))
+  }
+  
   def showExtract(runID: String, article: String) = DBAction { implicit request =>
     import play.api.libs.json._
     val rows = matches.filter(_.runID === runID).filter(_.docName === s"${article}.xml").list
@@ -44,7 +58,11 @@ object Application extends Controller with Match with slickGenerated.Tables {
     
     //val runIDs = Runids.map(r => r.runid.get).list // this would work when that table means anything
     val runIDs = matches.map(m => m.runID).list.distinct.sorted(Ordering[String].reverse)
-        
+    
+    println(article)
+    println(rows)
+    println(runID)
+    println(content)
     Ok(views.html.showExtract(runIDs, runID, article, content))
     //Ok(views.html.showExtractFoundation(Json.toJson(runIDs), runID, article, content))
   }
