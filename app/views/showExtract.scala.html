@@ -29,39 +29,19 @@
 		    $('[data-original-title]').popover('hide');
 		  }
 		});
-		
+	
 </script>
 
 <body>
 
   <div>
   
-    <span>You are viewing the output for run ID:</span>
-    
     <!-- runID display and selection -->    	   
-    <span data-toggle="popover" 
-          data-trigger="hover" 
-          data-placement="auto" data-html="true" 
-          data-content="you may also select a different run's results here, by clicking here and selecting a different run ID">
+    <span>You are viewing the output for run ID:</span>
 
-		  <span class="dropdown">   	
-		  <button type="button" 
-		          class="btn btn-default dropdown-toggle" 
-		          data-toggle="dropdown"
-		          >
-		          @selectedRunID 
-		          <span class="caret"></span>
-		  </button>
-	    <ul class="dropdown-menu" 
-	        role="menu">
-	        @runIDs.map {r => 
-	        <li><a role="presentation" 
-	               role="menuitem" tabindex="-1" 
-	               href=@routes.Application.showExtract(r, article)>@r</a></li>
-	      }
-		  </ul>
+	    <span @popover(popoverContent="you may also select a different run's results here, by clicking here and selecting a different run ID")>
+	      @dropDownButton(selectedRunID, runIDs.map {r => (routes.Application.showExtract(r, article).toString, r) })
 		  </span>
-	  </span>
 
     <!-- button for showing original article -->
     @buttonWithPopover("View Original", routes.Application.showOriginal(article).toString, "click here to go to the original article")
@@ -73,13 +53,8 @@
     @matches.map {m => 
       <tr>
         <td class="matchIndication">@m.matchIndication</td>
-        <td style="width: 80ch" 
-            data-toggle="popover" 
-            data-trigger="hover" 
-            data-placement="auto" 
-            title="why is this here?" 
-            data-html="true" 
-            data-content="it matched pattern: <b>@m.matchPattern</b><br>in section: <b>@m.locationActual</b>">
+        <td style="width: 80ch"
+            @popover(Some("why is this here?"), s"it matched pattern: <b>${m.matchPattern}</b><br>in section: <b>${m.locationActual}</b>")>
             @m.sentence
         </td>
       </tr>
