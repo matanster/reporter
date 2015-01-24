@@ -31,7 +31,7 @@ trait Match {
 object Application extends Controller with Match with slickGenerated.Tables {
 
   def playground = Action { implicit request =>
-    Ok(views.html.noticeTest())  
+    Ok(s"nothing here...")  
   }
   
   def index = Action { implicit request =>
